@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api", // backend URL
+  baseURL: "https://doc-ease-1.onrender.com", // backend URL
   withCredentials: true, // if you use cookies
 });
 
