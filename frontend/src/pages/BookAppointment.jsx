@@ -1,0 +1,294 @@
+// import { useState, useEffect, useContext } from "react";
+// import { useNavigate } from "react-router-dom";
+// import API from "../services/api";
+// import { AuthContext } from "../context/AuthContext";
+// import { toast } from "react-toastify";
+// import SlotSelector from "../components/SlotSelector";
+
+// const BookAppointment = () => {
+//   const { user } = useContext(AuthContext);
+//   const navigate = useNavigate();
+//   const [selectedTime, setSelectedTime] = useState("");
+//   const [doctors, setDoctors] = useState([]);
+//   const [doctor, setDoctor] = useState("");
+//   const [date, setDate] = useState("");
+//   const [reason, setReason] = useState("");
+//   const [bookedSlots, setBookedSlots] = useState([]);
+
+//   // Fetch list of doctors
+//   const fetchDoctors = async () => {
+//     try {
+//       const res = await API.get("/users/doctors");
+//       setDoctors(res.data);
+//     } catch (err) {
+//       toast.error("Failed to fetch doctors");
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDoctors();
+//   }, []);
+
+//   // Fetch booked slots when doctor or date changes
+//   useEffect(() => {
+//     const fetchBookedSlots = async () => {
+//       if (!doctor || !date) return;
+
+//       try {
+//         const res = await API.get(`/appointments/booked?doctor=${doctor}&date=${date}`);
+//         const slots = res.data.map((appt) => appt.time);
+//         setBookedSlots(slots);
+//       } catch (err) {
+//         toast.error("Failed to fetch booked slots");
+//       }
+//     };
+//     fetchBookedSlots();
+//   }, [doctor, date]);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!doctor || !date || !selectedTime || !reason) {
+//       toast.error("Please fill all fields");
+//       return;
+//     }
+
+//     try {
+//       await API.post("/appointments/book", {
+//         doctor,
+//         date,
+//         time: selectedTime,
+//         reason,
+//       });
+//       toast.success("Appointment booked successfully!");
+//       navigate("/patient");
+//     } catch (err) {
+//       toast.error(err.response?.data?.message || "Booking failed");
+//     }
+//   };
+
+//   return (
+//     <div className="flex items-center justify-center p-6 bg-gray-100 min-h-screen">
+//       <form
+//         onSubmit={handleSubmit}
+//         className="bg-white p-8 rounded shadow-md w-full max-w-md"
+//       >
+//         <h2 className="text-2xl font-bold mb-6 text-center">Book Appointment</h2>
+
+//         <div className="mb-4">
+//           <label className="block mb-1">Select Doctor</label>
+//           <select
+//             className="w-full border px-3 py-2 rounded"
+//             value={doctor}
+//             onChange={(e) => setDoctor(e.target.value)}
+//             required
+//           >
+//             <option value="">-- Select --</option>
+//             {doctors.map((doc) => (
+//               <option key={doc._id} value={doc._id}>
+//                 {doc.name} ({doc.email})
+//               </option>
+//             ))}
+//           </select>
+//         </div>
+
+//         <div className="mb-4">
+//           <label className="block mb-1">Date</label>
+//           <input
+//             type="date"
+//             className="w-full border px-3 py-2 rounded"
+//             value={date}
+//             onChange={(e) => setDate(e.target.value)}
+//             required
+//           />
+//         </div>
+
+//         <div className="mb-4">
+//           <label className="block mb-1">Time</label>
+//           <SlotSelector
+//             selectedTime={selectedTime}
+//             setSelectedTime={setSelectedTime}
+//             bookedSlots={bookedSlots} // ✅ pass booked slots
+//           />
+//         </div>
+
+//         <div className="mb-6">
+//           <label className="block mb-1">Reason</label>
+//           <textarea
+//             className="w-full border px-3 py-2 rounded"
+//             value={reason}
+//             onChange={(e) => setReason(e.target.value)}
+//             rows={3}
+//             required
+//           />
+//         </div>
+
+//         <button
+//           type="submit"
+//           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+//         >
+//           Book Appointment
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default BookAppointment;
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import SlotSelector from "../components/SlotSelector";
+
+const BookAppointment = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [selectedTime, setSelectedTime] = useState("");
+  const [doctors, setDoctors] = useState([]);
+  const [doctor, setDoctor] = useState("");
+  const [date, setDate] = useState("");
+  const [reason, setReason] = useState("");
+  const [bookedSlots, setBookedSlots] = useState([]);
+
+  const fetchDoctors = async () => {
+    try {
+      const res = await API.get("/users/doctors");
+      setDoctors(res.data);
+    } catch {
+      toast.error("Failed to fetch doctors");
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
+  useEffect(() => {
+    const fetchBookedSlots = async () => {
+      if (!doctor || !date) return;
+      try {
+        const res = await API.get(
+          `/appointments/booked?doctor=${doctor}&date=${date}`
+        );
+        setBookedSlots(res.data.map((appt) => appt.time));
+      } catch {
+        toast.error("Failed to fetch booked slots");
+      }
+    };
+    fetchBookedSlots();
+  }, [doctor, date]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!doctor || !date || !selectedTime || !reason) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    try {
+      await API.post("/appointments/book", {
+        doctor,
+        date,
+        time: selectedTime,
+        reason,
+      });
+      toast.success("Appointment booked successfully!");
+      navigate("/appointments");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Booking failed");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg border border-[#E6DED5]">
+
+        {/* Header */}
+        <div className="bg-[#D8CFC4] rounded-t-2xl p-6 text-center">
+          <h2 className="text-2xl font-bold text-[#3E3A36]">
+            Book an Appointment
+          </h2>
+          <p className="text-sm text-[#5A554F] mt-1">
+            Choose doctor, date & preferred time
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {/* Doctor */}
+          <div>
+            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+              Select Doctor
+            </label>
+            <select
+              className="w-full px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              value={doctor}
+              onChange={(e) => setDoctor(e.target.value)}
+              required
+            >
+              <option value="">-- Select Doctor --</option>
+              {doctors.map((doc) => (
+                <option key={doc._id} value={doc._id}>
+                  {doc.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Date */}
+          <div>
+            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+              Appointment Date
+            </label>
+            <input
+              type="date"
+              className="w-full px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Time */}
+          <div>
+            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+              Available Time Slots
+            </label>
+            <SlotSelector
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              bookedSlots={bookedSlots}
+            />
+          </div>
+
+          {/* Reason */}
+          <div>
+            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+              Reason for Visit
+            </label>
+            <textarea
+              className="w-full px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              rows={3}
+              placeholder="Describe your symptoms or concern"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-[#8B6F47] text-white py-3 rounded-lg font-medium hover:bg-[#7A5F3E] transition"
+          >
+            Confirm Appointment
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default BookAppointment;
