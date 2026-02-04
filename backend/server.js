@@ -13,7 +13,7 @@ import { connectDB } from "./config/db.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend
+  origin: "https://doc-ease-2.onrender.com", // your frontend
   credentials: true
 }));
 app.use(express.json());
