@@ -78,7 +78,7 @@ const Navbar = () => {
 
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-[#8B6F47]">
-          DocEase
+          Dr.Ease
         </Link>
 
         {/* Main Menu */}
