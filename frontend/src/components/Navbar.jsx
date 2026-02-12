@@ -83,7 +83,7 @@ const Navbar = () => {
 
         {/* Main Menu */}
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/" className={navLinkClass("/")}>Ghar</Link>
+          <Link to="/" className={navLinkClass("/")}>Home</Link>
           <Link to="/about" className={navLinkClass("/about")}>About</Link>
           <Link to="/services" className={navLinkClass("/services")}>Services</Link>
 
