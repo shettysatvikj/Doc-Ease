@@ -7,17 +7,23 @@ const SlotSelector = ({ selectedTime, setSelectedTime, bookedSlots }) => {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
       {slots.map((slot) => {
         const isBooked = bookedSlots.includes(slot);
         return (
           <button
             key={slot}
             type="button"
-            disabled={isBooked} // ❌ disable if booked
+            disabled={isBooked}
             onClick={() => setSelectedTime(slot)}
-            className={`py-2 px-3 rounded border transition
-              ${isBooked ? "bg-gray-300 cursor-not-allowed" : selectedTime === slot ? "bg-blue-600 text-white" : "bg-white hover:bg-blue-100"}`}
+            className={`w-full py-2 px-3 text-sm sm:text-base rounded border transition
+              ${
+                isBooked
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : selectedTime === slot
+                  ? "bg-blue-600 text-white"
+                  : "bg-white hover:bg-blue-100"
+              }`}
           >
             {slot}
           </button>
