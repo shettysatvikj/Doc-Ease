@@ -1,71 +1,12 @@
-// import { Link, useNavigate } from "react-router-dom";
-// import { useContext } from "react";
-// import { AuthContext } from "../context/AuthContext";
-
-// const Navbar = () => {
-//   const { user, logout } = useContext(AuthContext);
-//   const navigate = useNavigate();
-
-//   return (
-//     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-//       <Link to="/" className="font-bold text-xl">
-//         DocEase
-//       </Link>
-
-//       <div className="flex gap-4 items-center">
-//         {!user && (
-//           <>
-//             <Link to="/login" className="hover:underline">
-//               Login
-//             </Link>
-//             <Link to="/register" className="hover:underline">
-//               Register
-//             </Link>
-//           </>
-//         )}
-
-//         {user && user.role === "patient" && (
-//           <>
-//             <Link to="/patient" className="hover:underline">
-//               Dashboard
-//             </Link>
-//             <Link to="/book-appointment" className="hover:underline">
-//               Book Appointment
-//             </Link>
-//           </>
-//         )}
-
-//         {user && user.role === "doctor" && (
-//           <Link to="/doctor" className="hover:underline">
-//             Dashboard
-//           </Link>
-//         )}
-
-//         {user && (
-//           <button
-//             onClick={() => {
-//               logout();
-//               navigate("/");
-//             }}
-//             className="bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition"
-//           >
-//             Logout
-//           </button>
-//         )}
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinkClass = (path) =>
     location.pathname === path
@@ -74,14 +15,14 @@ const Navbar = () => {
 
   return (
     <nav className="bg-[#FAF8F5] border-b border-[#E6DED5] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
 
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-[#8B6F47]">
           Dr.Ease
         </Link>
 
-        {/* Main Menu */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
           <Link to="/" className={navLinkClass("/")}>Home</Link>
           <Link to="/about" className={navLinkClass("/about")}>About</Link>
@@ -97,17 +38,15 @@ const Navbar = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
 
-          {/* 👤 User Name */}
           {user && (
-            <span className="text-sm text-[#5A554F] hidden sm:block">
+            <span className="text-sm text-[#5A554F]">
               {user.role === "doctor" ? "Dr." : "Hi,"}{" "}
               <span className="font-medium text-[#3E3A36]">{user.name}</span>
             </span>
           )}
 
-          {/* Auth Buttons */}
           {!user && (
             <>
               <Link
@@ -125,7 +64,6 @@ const Navbar = () => {
             </>
           )}
 
-          {/* Book Appointment Button for Patients */}
           {user && user.role === "patient" && (
             <Link
               to="/book-appointment"
@@ -135,7 +73,6 @@ const Navbar = () => {
             </Link>
           )}
 
-          {/* Logout Button */}
           {user && (
             <button
               onClick={() => {
@@ -148,7 +85,91 @@ const Navbar = () => {
             </button>
           )}
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-2xl text-[#3E3A36]"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
       </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden bg-[#FAF8F5] border-t border-[#E6DED5] px-6 py-4 space-y-4">
+
+          <Link onClick={() => setMenuOpen(false)} to="/" className="block">Home</Link>
+          <Link onClick={() => setMenuOpen(false)} to="/about" className="block">About</Link>
+          <Link onClick={() => setMenuOpen(false)} to="/services" className="block">Services</Link>
+
+          {user && (
+            <Link
+              onClick={() => setMenuOpen(false)}
+              to="/appointments"
+              className="block"
+            >
+              Appointments
+            </Link>
+          )}
+
+          <Link onClick={() => setMenuOpen(false)} to="/contact" className="block">
+            Contact
+          </Link>
+
+          <hr className="border-[#E6DED5]" />
+
+          {user && (
+            <div className="text-sm text-[#5A554F]">
+              {user.role === "doctor" ? "Dr." : "Hi,"}{" "}
+              <span className="font-medium text-[#3E3A36]">{user.name}</span>
+            </div>
+          )}
+
+          {!user && (
+            <>
+              <Link
+                onClick={() => setMenuOpen(false)}
+                to="/login"
+                className="block text-[#3E3A36]"
+              >
+                Login
+              </Link>
+
+              <Link
+                onClick={() => setMenuOpen(false)}
+                to="/register"
+                className="block bg-[#8B6F47] text-white text-center py-2 rounded-full"
+              >
+                Register
+              </Link>
+            </>
+          )}
+
+          {user && user.role === "patient" && (
+            <Link
+              onClick={() => setMenuOpen(false)}
+              to="/book-appointment"
+              className="block bg-[#B89B72] text-white text-center py-2 rounded-full"
+            >
+              Book Appointment
+            </Link>
+          )}
+
+          {user && (
+            <button
+              onClick={() => {
+                logout();
+                navigate("/");
+                setMenuOpen(false);
+              }}
+              className="w-full bg-[#3E3A36] text-white py-2 rounded-full"
+            >
+              Logout
+            </button>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
