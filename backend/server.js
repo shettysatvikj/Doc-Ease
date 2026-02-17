@@ -13,9 +13,13 @@ import { connectDB } from "./config/db.js";
 const app = express();
 
 app.use(cors({
-  origin: "https://doc-ease-2.onrender.com", // your frontend
+  origin: [
+    "http://localhost:5173",
+    "https://doc-ease-1.onrender.com"
+  ],
   credentials: true
 }));
+
 app.use(express.json());
 app.use("/api/users",userRoutes);
 app.use("/api/appointments", appointmentRoutes);
