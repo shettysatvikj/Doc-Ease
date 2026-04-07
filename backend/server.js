@@ -1,14 +1,11 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express"
+import express from "express";
 import cors from "cors";
-
-
 
 import userRoutes from "./routes/userRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import { connectDB } from "./config/db.js";
-
 
 const app = express();
 
@@ -18,22 +15,30 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use("/api/users",userRoutes);
+
+app.use("/api/users", userRoutes);
 app.use("/api/appointments", appointmentRoutes);
 
-
 app.get("/", (req, res) => {
-    console.log(req.method)
-   res.json({
+  res.json({
     app: "DocEase",
     status: "Backend running",
   });
 });
-connectDB();
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    app: "DocEase",
+    status: "healthy",
+  });
 });
 
+connectDB();
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
 // patient tokken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU4ZDIzMWU2YWRjZjFjMmM2MWE2NSIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNzY2ODI5OTY3LCJleHAiOjE3Njc0MzQ3Njd9.nIjLNNCmGbVGKvwCrD0ni_PwXdGDg-pJ2g4skpSrd2o
 // patient id 694e8d231e6adcf1c2c61a65
 // doctor token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGZhY2QyMzM2ZmJmNDQzMGI1ZDI4ZCIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NjY4MzAwNDcsImV4cCI6MTc2NzQzNDg0N30.Jt8dJfvRl9QtQyS_NTI9Ew2ITch_ca6fWUr4GOdN_i8
