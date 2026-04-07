@@ -24,14 +24,31 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
     },
 
+    appointmentDateTime: {
+      type: Date,
+      required: true,
+      index: true,
+    },
+
     reason: {
       type: String,
+      trim: true,
     },
 
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "approved", "rejected", "cancelled", "completed"],
       default: "pending",
+    },
+
+    confirmationEmailSent: {
+      type: Boolean,
+      default: false,
+    },
+
+    reminderEmailSent: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

@@ -1,56 +1,117 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
 import Appointment from "../models/Appointment.js";
+import User from "../models/User.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const router = express.Router();
+
+// Helper: convert "YYYY-MM-DD" + "09:00 AM" into Date
+const parseAppointmentDateTime = (date, time) => {
+  const [timePart, modifier] = time.split(" ");
+  let [hours, minutes] = timePart.split(":").map(Number);
+
+  if (modifier === "PM" && hours !== 12) hours += 12;
+  if (modifier === "AM" && hours === 12) hours = 0;
+
+  const appointmentDate = new Date(date);
+  appointmentDate.setHours(hours, minutes, 0, 0);
+
+  return appointmentDate;
+};
 
 // ===============================
 // POST /api/appointments/book
 // ===============================
 router.post("/book", protect, async (req, res) => {
-  const { doctor, date, time, reason } = req.body;
+  try {
+    const { doctor, date, time, reason } = req.body;
 
-  if (req.user.role !== "patient") {
-    return res.status(403).json({
-      message: "Only patients can book appointments",
+    if (req.user.role !== "patient") {
+      return res.status(403).json({
+        message: "Only patients can book appointments",
+      });
+    }
+
+    if (req.user._id.toString() === doctor) {
+      return res.status(400).json({
+        message: "You cannot book an appointment with yourself",
+      });
+    }
+
+    const existingAppointment = await Appointment.findOne({
+      doctor,
+      date,
+      time,
+    });
+
+    if (existingAppointment) {
+      return res.status(400).json({
+        message: "This time slot is already booked with this doctor",
+      });
+    }
+
+    const doctorData = await User.findById(doctor).select("name email");
+
+    if (!doctorData) {
+      return res.status(404).json({
+        message: "Doctor not found",
+      });
+    }
+
+    const appointmentDateTime = parseAppointmentDateTime(date, time);
+
+    const appointment = new Appointment({
+      patient: req.user._id,
+      doctor,
+      date,
+      time,
+      appointmentDateTime,
+      reason,
+    });
+
+    await appointment.save();
+
+    // Send confirmation email to patient
+    if (req.user.email) {
+      await sendEmail({
+        to: req.user.email,
+        subject: "Appointment Booking Confirmation",
+        html: `
+          <h2>Appointment Booked Successfully</h2>
+          <p>Hello ${req.user.name || "Patient"},</p>
+          <p>Your appointment has been booked successfully.</p>
+          <p><strong>Doctor:</strong> ${doctorData.name || "Doctor"}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Time:</strong> ${time}</p>
+          <p><strong>Status:</strong> ${appointment.status}</p>
+          ${
+            reason
+              ? `<p><strong>Reason:</strong> ${reason}</p>`
+              : ""
+          }
+          <p>Thank you for choosing our clinic.</p>
+        `,
+      });
+
+      appointment.confirmationEmailSent = true;
+      await appointment.save();
+    }
+
+    res.status(201).json({
+      message: "Appointment booked successfully",
+      appointment,
+    });
+  } catch (error) {
+    console.error("Book appointment error:", error);
+    res.status(500).json({
+      message: "Server error while booking appointment",
+      error: error.message,
     });
   }
-
-  if (req.user._id.toString() === doctor) {
-    return res.status(400).json({
-      message: "You cannot book an appointment with yourself",
-    });
-  }
-
-  // ✅ Check for double booking
-  const existingAppointment = await Appointment.findOne({
-    doctor,
-    date,
-    time,
-  });
-
-  if (existingAppointment) {
-    return res.status(400).json({
-      message: "This time slot is already booked with this doctor",
-    });
-  }
-
-  const appointment = new Appointment({
-    patient: req.user._id,
-    doctor,
-    date,
-    time,
-    reason,
-  });
-
-  await appointment.save();
-
-  res.status(201).json({
-    message: "Appointment booked successfully",
-    appointment,
-  });
 });
-  // GET /api/appointments/booked?doctor=ID&date=YYYY-MM-DD
+
+// GET /api/appointments/booked?doctor=ID&date=YYYY-MM-DD
 router.get("/booked", protect, async (req, res) => {
   const { doctor, date } = req.query;
 
@@ -67,7 +128,6 @@ router.get("/booked", protect, async (req, res) => {
   }
 });
 
-
 // ===============================
 // GET /api/appointments/doctor
 // ===============================
@@ -78,6 +138,7 @@ router.get("/doctor", protect, async (req, res) => {
 
   res.json(appointments);
 });
+
 // PATCH /api/appointments/:id/status
 router.patch("/:id/status", protect, async (req, res) => {
   const { status } = req.body;
@@ -110,6 +171,7 @@ router.patch("/:id/status", protect, async (req, res) => {
     appointment,
   });
 });
+
 // GET /api/appointments/my
 router.get("/my", protect, async (req, res) => {
   const appointments = await Appointment.find({
@@ -118,6 +180,7 @@ router.get("/my", protect, async (req, res) => {
 
   res.json(appointments);
 });
+
 // GET /api/appointments/available/:doctorId?date=YYYY-MM-DD
 router.get("/available/:doctorId", async (req, res) => {
   const { doctorId } = req.params;
@@ -127,24 +190,30 @@ router.get("/available/:doctorId", async (req, res) => {
     return res.status(400).json({ message: "Date is required" });
   }
 
-  // All booked appointments for that doctor on this date
   const bookedAppointments = await Appointment.find({
     doctor: doctorId,
     date,
   }).select("time");
 
-  const bookedTimes = bookedAppointments.map(a => a.time);
+  const bookedTimes = bookedAppointments.map((a) => a.time);
 
   const timeSlots = [
-    "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-    "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
+    "09:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "01:00 PM",
+    "02:00 PM",
+    "03:00 PM",
+    "04:00 PM",
+    "05:00 PM",
   ];
 
-  // Filter out booked slots
-  const availableSlots = timeSlots.filter(slot => !bookedTimes.includes(slot));
+  const availableSlots = timeSlots.filter((slot) => !bookedTimes.includes(slot));
 
   res.json({ availableSlots });
 });
+
 // GET /api/appointments/patient
 router.get("/patient", protect, async (req, res) => {
   const appointments = await Appointment.find({
@@ -172,6 +241,5 @@ router.put("/:id/status", protect, async (req, res) => {
 
   res.json({ message: `Appointment ${status}`, appointment });
 });
-
 
 export default router;
