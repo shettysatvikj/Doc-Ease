@@ -2,7 +2,15 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 
-const AIChat = lazy(() => import("../components/AIChat.jsx"));
+const loadAIChat = () =>
+  import("../components/AIChat.jsx");
+
+const [AIChatComp, setAIChatComp] = useState(null);
+
+const handleOpenChat = async () => {
+  const mod = await loadAIChat();
+  setAIChatComp(() => mod.default);
+};
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -247,10 +255,9 @@ const Home = () => {
         </Link>
       </section>
 
-      {/* Lazy Loaded AI Chat */}
-      <Suspense fallback={null}>
-        <AIChat />
-      </Suspense>
+<button onClick={handleOpenChat}>Chat</button>
+
+{AIChatComp && <AIChatComp />}
 
     </div>
   );
