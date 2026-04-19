@@ -15,7 +15,7 @@ const app = express();
 // ✅ CORS Configuration
 app.use(
   cors({
-    origin: "https://doc-ease-ikdv.vercel.app/",
+    origin: "https://doc-ease-ikdv.vercel.app",
     credentials: true,
   })
 );
