@@ -5,16 +5,17 @@ import {  useState ,lazy, Suspense } from "react";
 const loadAIChat = () =>
   import("../components/AIChat.jsx");
 
-const [AIChatComp, setAIChatComp] = useState(null);
+
+
+const ease = [0.16, 1, 0.3, 1];
+
+const Home = () => {
+  const [AIChatComp, setAIChatComp] = useState(null);
 
 const handleOpenChat = async () => {
   const mod = await loadAIChat();
   setAIChatComp(() => mod.default);
 };
-
-const ease = [0.16, 1, 0.3, 1];
-
-const Home = () => {
   return (
     <div className="bg-white text-[#0A1F24] overflow-hidden">
 
