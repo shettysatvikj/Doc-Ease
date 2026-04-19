@@ -247,20 +247,10 @@ const Home = () => {
         </Link>
       </section>
 
-       {/* Floating Chat Button */}
-      <button
-        onClick={() => setOpenChat(true)}
-        className="fixed bottom-6 right-6 z-50 bg-[#06353b] text-white px-5 py-3 rounded-full shadow-lg hover:bg-[#0E5C63] transition"
-      >
-        Chat
-      </button>
-
-      {/* Load ONLY when clicked */}
-      {openChat && (
-        <Suspense fallback={null}>
-          <AIChat onClose={() => setOpenChat(false)} />
-        </Suspense>
-      )}
+      {/* Lazy Loaded AI Chat */}
+      <Suspense fallback={null}>
+        <AIChat />
+      </Suspense>
 
     </div>
   );
