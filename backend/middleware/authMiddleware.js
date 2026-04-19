@@ -57,4 +57,5 @@ export const protect = async (req, res, next) => {
 
   // No token
   return res.status(401).json({ message: "No token, authorization denied" });
+
 };

@@ -1,59 +1,43 @@
 import cron from "node-cron";
 import Appointment from "../models/Appointment.js";
-import sendEmail from "../utils/sendEmail.js";
+import { sendReminderEmail } from "../utilis/emailService.js";
 
-const startReminderJob = () => {
-  cron.schedule("* * * * *", async () => {
-    try {
-      const now = new Date();
+export const startReminderJob = () => {
+  cron.schedule("0 * * * *", async () => {   // ✅ every minute for testing
+    console.log("⏰ Checking for upcoming appointments...");
 
-      const oneHourLaterStart = new Date(now.getTime() + 60 * 60 * 1000);
-      const oneHourLaterEnd = new Date(now.getTime() + 61 * 60 * 1000);
+    const now = new Date();
 
-      const appointments = await Appointment.find({
-        appointmentDateTime: {
-          $gte: oneHourLaterStart,
-          $lt: oneHourLaterEnd,
-        },
-        status: "approved",
-        reminderEmailSent: false,
-      })
-        .populate("patient", "name email")
-        .populate("doctor", "name");
+    // ✅ IMPORTANT: populate patient
+    const appointments = await Appointment.find({
+      reminderEmailSent: false,
+      status: { $in: ["pending", "approved"] },
+    }).populate("patient");
 
-      for (const appointment of appointments) {
-        try {
-          if (!appointment.patient?.email) continue;
+  for (let appt of appointments) {
+  const appointmentDateTime = appt.appointmentDateTime;
+  const diffInMs = appointmentDateTime - now;
+  const diffInHours = diffInMs / (1000 * 60 * 60);
 
-          await sendEmail({
-            to: appointment.patient.email,
-            subject: "Appointment Reminder",
-            html: `
-              <h2>Appointment Reminder</h2>
-              <p>Hello ${appointment.patient.name || "Patient"},</p>
-              <p>This is a reminder that your appointment is in 1 hour.</p>
-              <p><strong>Doctor:</strong> ${appointment.doctor?.name || "Doctor"}</p>
-              <p><strong>Date:</strong> ${appointment.date}</p>
-              <p><strong>Time:</strong> ${appointment.time}</p>
-              <p>Please arrive on time.</p>
-            `,
-          });
+  console.log("Diff hours:", diffInHours);
 
-          appointment.reminderEmailSent = true;
-          await appointment.save();
+  // ✅ Send 2 hours before
+  if (diffInHours <= 2 && diffInHours > 1) {
 
-          console.log(`Reminder sent to ${appointment.patient.email}`);
-        } catch (emailError) {
-          console.error(
-            `Failed to send reminder for appointment ${appointment._id}:`,
-            emailError.message
-          );
-        }
-      }
-    } catch (error) {
-      console.error("Reminder job error:", error.message);
-    }
+    console.log("✅ Sending 2-hour reminder to:", appt.patient.email);
+
+    await sendReminderEmail({
+      name: appt.patient.name,
+      email: appt.patient.email,
+      date: appt.date,
+      time: appt.time,
+    });
+
+    appt.reminderEmailSent = true;
+    await appt.save();
+  }
+}
   });
-};
 
-export default startReminderJob;
+  console.log("✅ Reminder job started");
+};

@@ -50,9 +50,62 @@ const appointmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    /* =========================
+       ✅ Cancellation Fields
+    ========================== */
+
+    cancellationReason: {
+      type: String,
+      trim: true,
+    },
+
+    cancelledBy: {
+      type: String,
+      enum: ["patient", "doctor"],
+    },
+
+    cancelledAt: {
+      type: Date,
+    },
+
+    /* =========================
+       ✅ Reschedule Fields
+    ========================== */
+
+    previousDate: {
+      type: String,
+    },
+
+    previousTime: {
+      type: String,
+    },
+
+    rescheduledBy: {
+      type: String,
+      enum: ["patient", "doctor"],
+    },
+
+    rescheduledAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
 
+/* =========================
+   ✅ Performance Indexes
+========================= */
+
+// Fast conflict checking
+appointmentSchema.index({ doctor: 1, appointmentDateTime: 1 });
+
+// Optional: quickly fetch doctor appointments
+appointmentSchema.index({ doctor: 1, status: 1 });
+
+// Optional: patient dashboard optimization
+appointmentSchema.index({ patient: 1, status: 1 });
+
 const Appointment = mongoose.model("Appointment", appointmentSchema);
+
 export default Appointment;
