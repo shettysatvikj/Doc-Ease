@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { lazy, Suspense } from "react";
+import {  useState ,lazy, Suspense } from "react";
 
 const loadAIChat = () =>
   import("../components/AIChat.jsx");
