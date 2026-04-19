@@ -1,21 +1,18 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import {  useState ,lazy, Suspense } from "react";
+import { useState } from "react";
 
-const loadAIChat = () =>
-  import("../components/AIChat.jsx");
-
-
-
-const ease = [0.16, 1, 0.3, 1];
+const loadAIChat = () => import("../components/AIChat.jsx");
 
 const Home = () => {
   const [AIChatComp, setAIChatComp] = useState(null);
 
-const handleOpenChat = async () => {
-  const mod = await loadAIChat();
-  setAIChatComp(() => mod.default);
-};
+  const handleOpenChat = async () => {
+    if (!AIChatComp) {
+      const mod = await loadAIChat();
+      setAIChatComp(() => mod.default);
+    }
+  };
+
   return (
     <div className="bg-white text-[#0A1F24] overflow-hidden">
 
@@ -39,12 +36,7 @@ const handleOpenChat = async () => {
 
         <div className="absolute inset-0 bg-[#06353b]/75" />
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease }}
-          className="relative z-10 text-center px-4 max-w-4xl"
-        >
+        <div className="relative z-10 text-center px-4 max-w-4xl">
           <div className="w-16 md:w-20 h-[2px] bg-[#D4B26A] mx-auto mb-6 md:mb-10" />
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white leading-[1.1]">
@@ -73,7 +65,7 @@ const handleOpenChat = async () => {
               Our Services
             </Link>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ================= FLOATING STATS ================= */}
@@ -140,103 +132,7 @@ const handleOpenChat = async () => {
         </div>
       </section>
 
-      {/* ================= WHY CHOOSE US ================= */}
-      <section className="py-20 md:py-40 bg-[#F4F8F7]">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-
-          <div className="text-center mb-12 md:mb-24">
-            <div className="w-14 md:w-16 h-[2px] bg-[#D4B26A] mx-auto mb-6 md:mb-8" />
-            <h2 className="text-2xl md:text-4xl font-display text-[#06353b]">
-              Why Choose Our Clinic
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center">
-
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=70"
-                alt="Clinic Interior"
-                loading="lazy"
-                decoding="async"
-                className="w-full h-[240px] md:h-[360px] object-cover rounded-2xl border border-[#06353b]/10"
-              />
-            </div>
-
-            <div className="space-y-8 md:space-y-12">
-              {[
-                "Private & Discreet Environment",
-                "Senior Medical Specialists",
-                "Advanced Diagnostic Technology",
-                "Personalized Patient Experience",
-              ].map((item, i) => (
-                <div key={i}>
-                  <div className="flex items-center gap-4 md:gap-6">
-                    <div className="text-[#06353b]/40 text-sm">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <h3 className="text-base md:text-lg font-display text-[#06353b]">
-                      {item}
-                    </h3>
-                  </div>
-                  <div className="mt-3 ml-8 md:ml-10 w-8 md:w-10 h-[1px] bg-[#D4B26A]" />
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ================= DOCTOR SPOTLIGHT ================= */}
-      <section className="py-20 md:py-40">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 md:gap-24 items-center">
-
-          <div>
-            <img
-              src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fit=crop&w=800&q=70"
-              alt="Lead Doctor"
-              loading="lazy"
-              decoding="async"
-              className="rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.08)] w-full"
-            />
-          </div>
-
-          <div>
-            <div className="w-14 md:w-16 h-[2px] bg-[#D4B26A] mb-6 md:mb-8" />
-            <h2 className="text-2xl md:text-4xl font-display leading-tight">
-              Led by Experienced
-              <br />
-              Medical Professionals
-            </h2>
-
-            <p className="mt-6 md:mt-8 text-[#0A1F24]/70 leading-relaxed text-sm md:text-base">
-              Our senior specialists combine decades of expertise with modern diagnostic technology.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= TESTIMONIAL ================= */}
-      <section className="py-20 md:py-40 bg-[#06353b] text-white text-center">
-        <div className="max-w-3xl mx-auto px-4 md:px-6">
-
-          <div className="w-14 md:w-16 h-[2px] bg-[#D4B26A] mx-auto mb-6 md:mb-10" />
-
-          <p className="text-lg md:text-xl leading-relaxed italic text-white/90">
-            “The professionalism, discretion, and quality of care
-            exceeded all expectations.”
-          </p>
-
-          <div className="mt-6 md:mt-10 text-sm text-white/70">
-            — Private Patient
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= FINAL CTA ================= */}
+      {/* ================= CTA ================= */}
       <section className="py-20 md:py-40 bg-white text-center">
         <h2 className="text-3xl md:text-5xl font-display leading-tight text-[#06353b]">
           Begin Your Private
@@ -256,9 +152,17 @@ const handleOpenChat = async () => {
         </Link>
       </section>
 
-<button onClick={handleOpenChat}>Chat</button>
+      {/* ================= AI CHAT (LAZY LOAD) ================= */}
+      <div className="fixed bottom-6 right-6">
+        <button
+          onClick={handleOpenChat}
+          className="bg-[#06353b] text-white px-5 py-3 rounded-full shadow-lg"
+        >
+          Chat
+        </button>
+      </div>
 
-{AIChatComp && <AIChatComp />}
+      {AIChatComp && <AIChatComp />}
 
     </div>
   );
