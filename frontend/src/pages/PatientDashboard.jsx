@@ -12,7 +12,7 @@ const PatientDashboard = () => {
 
   const fetchAppointments = async () => {
     try {
-      const res = await API.get("/appointments/patiient");
+      const res = await API.get("/appointments/patient");
       setAppointments(res.data);
     } catch {
       toast.error("Failed to fetch appointments");
