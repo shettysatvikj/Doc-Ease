@@ -66,34 +66,36 @@ const BookAppointment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
-      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-white rounded-2xl shadow-lg border border-[#E6DED5]">
+    <div className="min-h-screen bg-[#F4F8F7] pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6">
+
+      <div className="max-w-xl mx-auto bg-white rounded-2xl border border-[#06353b]/10 shadow-[0_30px_80px_rgba(6,53,59,0.08)]">
 
         {/* Header */}
-        <div className="bg-[#D8CFC4] rounded-t-2xl p-5 sm:p-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#3E3A36]">
-            Book an Appointment
+        <div className="px-6 md:px-8 pt-8 md:pt-10 pb-6 text-center border-b border-[#06353b]/10">
+          <div className="w-10 md:w-12 h-[2px] bg-[#2F8F9D] mx-auto mb-4 md:mb-6" />
+          <h2 className="text-xl md:text-2xl font-semibold text-[#06353b]">
+            Book Appointment
           </h2>
-          <p className="text-xs sm:text-sm text-[#5A554F] mt-1">
-            Choose doctor, date & preferred time
+          <p className="text-xs md:text-sm text-[#06353b]/60 mt-2">
+            Select your doctor and preferred consultation time
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 sm:space-y-5">
-          
+        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-6 md:py-8 space-y-5 md:space-y-6">
+
           {/* Doctor */}
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Select Doctor
             </label>
             <select
-              className="w-full px-3 sm:px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              className="w-full px-4 py-2.5 md:py-3 border border-[#06353b]/20 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               value={doctor}
               onChange={(e) => setDoctor(e.target.value)}
               required
             >
-              <option value="">-- Select Doctor --</option>
+              <option value="">Choose Doctor</option>
               {doctors.map((doc) => (
                 <option key={doc._id} value={doc._id}>
                   {doc.name}
@@ -104,12 +106,12 @@ const BookAppointment = () => {
 
           {/* Date */}
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Appointment Date
             </label>
             <input
               type="date"
-              className="w-full px-3 sm:px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              className="w-full px-4 py-2.5 md:py-3 border border-[#06353b]/20 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
@@ -118,7 +120,7 @@ const BookAppointment = () => {
 
           {/* Time */}
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-2">
+            <label className="block text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-3">
               Available Time Slots
             </label>
             <SlotSelector
@@ -130,13 +132,13 @@ const BookAppointment = () => {
 
           {/* Reason */}
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Reason for Visit
             </label>
             <textarea
-              className="w-full px-3 sm:px-4 py-2 border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
               rows={3}
-              placeholder="Describe your symptoms or concern"
+              placeholder="Briefly describe your concern"
+              className="w-full px-4 py-2.5 md:py-3 border border-[#06353b]/20 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition resize-none"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               required
@@ -146,10 +148,11 @@ const BookAppointment = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#8B6F47] text-white py-2.5 sm:py-3 rounded-lg font-medium hover:bg-[#7A5F3E] transition"
+            className="w-full bg-[#06353b] text-white py-3 md:py-3.5 rounded-lg text-[12px] md:text-[13px] uppercase tracking-[0.12em] hover:bg-[#0E5C63] transition duration-300"
           >
             Confirm Appointment
           </button>
+
         </form>
       </div>
     </div>

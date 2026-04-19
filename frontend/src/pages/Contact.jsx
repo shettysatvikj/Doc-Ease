@@ -1,81 +1,97 @@
 const Contact = () => {
   return (
-    <div className="bg-[#FAF8F5] min-h-screen">
+    <div className="bg-[#F4F8F7] min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 px-4 md:px-6">
 
-      {/* Header */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#3E3A36] mb-4">
-          Contact Us
+      {/* ================= HEADER ================= */}
+      <section className="max-w-5xl mx-auto text-center mb-16 md:mb-24">
+        <div className="w-14 md:w-16 h-[2px] bg-[#2F8F9D] mx-auto mb-6 md:mb-8" />
+
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display text-[#06353b] mb-4 md:mb-6 leading-tight">
+          Contact Our Clinic
         </h1>
-        <p className="text-sm sm:text-base text-[#6B655E] max-w-2xl mx-auto">
-          We’re here to help you. Reach out for appointments, emergencies, or general inquiries.
+
+        <p className="text-[#06353b]/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed px-2">
+          For appointments, medical inquiries, or urgent assistance,
+          our team is available to support you.
         </p>
       </section>
 
-      {/* Contact Info */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div className="bg-white border border-[#E6DED5] rounded-xl p-5 sm:p-6 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl mb-3">📍</div>
-          <h3 className="font-semibold text-[#3E3A36] mb-1">Clinic Address</h3>
-          <p className="text-sm text-[#6B655E]">
-            123 Health Street,<br /> Bangalore, India
-          </p>
-        </div>
+      {/* ================= CONTACT INFO ================= */}
+      <section className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-20 md:mb-28 text-center">
 
-        <div className="bg-white border border-[#E6DED5] rounded-xl p-5 sm:p-6 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl mb-3">📞</div>
-          <h3 className="font-semibold text-[#3E3A36] mb-1">Call Us</h3>
-          <p className="text-sm text-[#6B655E]">
-            +91 98765 43210<br />+91 91234 56789
-          </p>
-        </div>
+        {[
+          {
+            title: "Clinic Address",
+            value: "123 Health Street\nBangalore, India"
+          },
+          {
+            title: "Telephone",
+            value: "+91 98765 43210\n+91 91234 56789"
+          },
+          {
+            title: "Email",
+            value: "support@docease.com\nappointments@docease.com"
+          }
+        ].map((item, i) => (
+          <div key={i} className="border-t border-[#06353b]/10 pt-6 md:pt-8 px-2">
 
-        <div className="bg-white border border-[#E6DED5] rounded-xl p-5 sm:p-6 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl mb-3">✉️</div>
-          <h3 className="font-semibold text-[#3E3A36] mb-1">Email</h3>
-          <p className="text-sm text-[#6B655E]">
-            support@docease.com<br />appointments@docease.com
-          </p>
-        </div>
+            <div className="w-8 md:w-10 h-[1px] bg-[#2F8F9D] mx-auto mb-4 md:mb-6" />
+
+            <h3 className="uppercase tracking-[0.15em] text-xs md:text-sm text-[#06353b]/60 mb-3 md:mb-4">
+              {item.title}
+            </h3>
+
+            <p className="text-[#06353b] whitespace-pre-line leading-relaxed text-sm md:text-base">
+              {item.value}
+            </p>
+
+          </div>
+        ))}
+
       </section>
 
-      {/* Form + Map */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
+      {/* ================= FORM + MAP ================= */}
+      <section className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 md:gap-16 mb-20 md:mb-28">
 
         {/* Contact Form */}
-        <div className="bg-white border border-[#E6DED5] rounded-xl p-6 sm:p-8 shadow-sm">
-          <h2 className="text-xl sm:text-2xl font-semibold text-[#3E3A36] mb-5 sm:mb-6">
-            Send Us a Message
+        <div className="bg-white border border-[#06353b]/10 rounded-2xl shadow-[0_30px_80px_rgba(6,53,59,0.08)] p-6 md:p-10">
+
+          <h2 className="text-xl md:text-2xl font-semibold text-[#06353b] mb-6 md:mb-8">
+            Send a Message
           </h2>
 
-          <form className="space-y-4">
+          <form className="space-y-5 md:space-y-6">
+
             <input
               type="text"
               placeholder="Full Name"
-              className="w-full border border-[#E6DED5] rounded-lg px-4 py-2.5 sm:py-3 focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              className="w-full px-4 py-2.5 md:py-3 text-sm md:text-base border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
             />
+
             <input
               type="email"
               placeholder="Email Address"
-              className="w-full border border-[#E6DED5] rounded-lg px-4 py-2.5 sm:py-3 focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              className="w-full px-4 py-2.5 md:py-3 text-sm md:text-base border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
             />
+
             <textarea
               rows="4"
               placeholder="Your Message"
-              className="w-full border border-[#E6DED5] rounded-lg px-4 py-2.5 sm:py-3 focus:outline-none focus:ring-2 focus:ring-[#B89B72]"
+              className="w-full px-4 py-2.5 md:py-3 text-sm md:text-base border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition resize-none"
             />
 
             <button
               type="submit"
-              className="w-full sm:w-auto bg-[#8B6F47] text-white px-6 py-2.5 sm:py-3 rounded-full hover:bg-[#7A5F3E] transition"
+              className="w-full sm:w-auto bg-[#06353b] text-white px-6 md:px-8 py-3 rounded-lg uppercase tracking-[0.12em] text-xs md:text-sm hover:bg-[#0E5C63] transition duration-300"
             >
               Send Message
             </button>
+
           </form>
         </div>
 
         {/* Google Map */}
-        <div className="rounded-xl overflow-hidden border border-[#E6DED5] shadow-sm min-h-[300px] sm:min-h-[420px]">
+        <div className="rounded-2xl overflow-hidden border border-[#06353b]/10 shadow-[0_30px_80px_rgba(6,53,59,0.08)] min-h-[300px] md:min-h-[420px]">
           <iframe
             title="clinic-location"
             src="https://www.google.com/maps?q=Bangalore&output=embed"
@@ -83,20 +99,26 @@ const Contact = () => {
             loading="lazy"
           ></iframe>
         </div>
+
       </section>
 
-      {/* Emergency CTA */}
-      <section className="bg-[#EFE9E1] py-10 sm:py-12 text-center px-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-[#3E3A36] mb-2">
-          Emergency? We’re Available 24/7
+      {/* ================= EMERGENCY SECTION ================= */}
+      <section className="max-w-4xl mx-auto text-center border-t border-[#06353b]/10 pt-12 md:pt-16">
+
+        <h2 className="text-xl md:text-2xl font-semibold text-[#06353b] mb-3 md:mb-4">
+          Emergency Assistance
         </h2>
-        <p className="text-sm sm:text-base text-[#6B655E] mb-4">
-          Call our emergency helpline immediately for urgent care.
+
+        <p className="text-[#06353b]/70 mb-4 md:mb-6 text-sm md:text-base">
+          Our emergency response team is available 24 hours a day.
         </p>
-        <p className="text-lg sm:text-xl font-semibold text-[#8B6F47]">
-          🚑 +91 99999 00000
-        </p>
+
+        <div className="text-xl md:text-2xl font-semibold text-[#2F8F9D]">
+          +91 99999 00000
+        </div>
+
       </section>
+
     </div>
   );
 };

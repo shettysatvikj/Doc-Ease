@@ -25,7 +25,7 @@ const Register = () => {
       });
 
       login(res.data.user, res.data.token);
-      toast.success("Registration successful!");
+      toast.success("Registration successful");
       navigate("/appointments");
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
@@ -33,29 +33,31 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5] px-4 sm:px-6 py-8">
-      <div className="w-full max-w-md sm:max-w-lg bg-white rounded-2xl shadow-lg border border-[#E6DED5] overflow-hidden">
-        
-        {/* Header */}
-        <div className="bg-[#D8CFC4] p-6 sm:p-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#3E3A36]">
-            Create an Account
+    <div className="min-h-screen flex items-center justify-center bg-[#F4F8F7] pt-32 pb-20 px-6">
+
+      <div className="w-full max-w-md bg-white rounded-2xl border border-[#06353b]/10 shadow-[0_30px_80px_rgba(6,53,59,0.08)]">
+
+        {/* ================= HEADER ================= */}
+        <div className="px-8 pt-10 pb-6 text-center border-b border-[#06353b]/10">
+          <div className="w-12 h-[2px] bg-[#2F8F9D] mx-auto mb-6" />
+          <h2 className="text-2xl font-semibold text-[#06353b]">
+            Create Account
           </h2>
-          <p className="text-sm text-[#5A554F] mt-2">
-            Join our clinic management system
+          <p className="text-sm text-[#06353b]/60 mt-2">
+            Join our private healthcare platform
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5">
+        {/* ================= FORM ================= */}
+        <form onSubmit={handleSubmit} className="px-8 py-8 space-y-6">
 
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Full Name
             </label>
             <input
               type="text"
-              className="w-full px-4 py-3 text-sm sm:text-base border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72] focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -64,12 +66,12 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Email Address
             </label>
             <input
               type="email"
-              className="w-full px-4 py-3 text-sm sm:text-base border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72] focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -78,12 +80,12 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Password
             </label>
             <input
               type="password"
-              className="w-full px-4 py-3 text-sm sm:text-base border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72] focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -92,11 +94,11 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#3E3A36] mb-1">
+            <label className="block text-[13px] uppercase tracking-[0.12em] text-[#06353b]/70 mb-2">
               Register As
             </label>
             <select
-              className="w-full px-4 py-3 text-sm sm:text-base border border-[#D8CFC4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B89B72] focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-[#06353b]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F8F9D]/40 focus:border-[#2F8F9D] transition"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -107,14 +109,15 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#8B6F47] text-white py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-[#7A5F3E] active:scale-[0.98] transition"
+            className="w-full bg-[#06353b] text-white py-3 rounded-lg text-sm uppercase tracking-[0.12em] hover:bg-[#0E5C63] transition duration-300"
           >
             Register
           </button>
 
-          <p className="text-center text-xs sm:text-sm text-[#6B655E]">
-            Secure & trusted healthcare platform
+          <p className="text-center text-xs text-[#06353b]/50 uppercase tracking-[0.15em]">
+            Secure & Confidential Platform
           </p>
+
         </form>
       </div>
     </div>

@@ -1,99 +1,100 @@
+import { Link } from "react-router-dom";
+
 const services = [
   {
     title: "General Consultation",
-    desc: "Comprehensive health checkups and expert medical advice.",
+    desc: "Comprehensive health evaluations and personalized medical guidance.",
     icon: "🩺",
   },
   {
-    title: "Specialist Doctors",
-    desc: "Consult experienced specialists across multiple departments.",
+    title: "Specialist Care",
+    desc: "Access experienced specialists across multiple disciplines.",
     icon: "👨‍⚕️",
   },
   {
-    title: "Emergency Care",
-    desc: "24/7 emergency medical services with rapid response.",
+    title: "Emergency Services",
+    desc: "24/7 urgent care with rapid medical response.",
     icon: "🚑",
   },
   {
-    title: "Diagnostics & Lab",
-    desc: "Accurate lab tests and imaging with modern equipment.",
+    title: "Diagnostics & Laboratory",
+    desc: "Accurate imaging and lab testing using modern technology.",
     icon: "🧪",
   },
   {
     title: "Online Appointments",
-    desc: "Book appointments easily without waiting in queues.",
+    desc: "Seamless digital scheduling for your convenience.",
     icon: "📅",
   },
   {
-    title: "Patient Records",
-    desc: "Secure digital records for better continuity of care.",
+    title: "Secure Patient Records",
+    desc: "Confidential digital records ensuring continuity of care.",
     icon: "📄",
   },
 ];
 
 const Services = () => {
   return (
-    <div className="bg-[#FAF8F5] min-h-screen">
+    <div className="bg-[#F4F8F7] min-h-screen pt-32 pb-24 px-6">
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#3E3A36] mb-4">
+      {/* ================= HERO ================= */}
+      <section className="max-w-5xl mx-auto text-center mb-24">
+        <div className="w-16 h-[2px] bg-[#2F8F9D] mx-auto mb-8" />
+        <h1 className="text-4xl md:text-5xl font-display text-[#06353b] mb-6">
           Our Medical Services
         </h1>
-        <p className="text-sm sm:text-base text-[#6B655E] max-w-2xl mx-auto">
-          We provide comprehensive healthcare services with experienced doctors,
-          modern facilities, and patient-first care.
+        <p className="text-[#06353b]/70 max-w-2xl mx-auto text-lg leading-relaxed">
+          Comprehensive healthcare delivered with clinical excellence,
+          modern technology, and a patient-centered approach.
         </p>
       </section>
 
-      {/* Services Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {/* ================= SERVICES GRID ================= */}
+      <section className="max-w-7xl mx-auto mb-28">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10">
+
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white border border-[#E6DED5] rounded-xl p-6 shadow-sm 
-                         hover:shadow-md hover:-translate-y-1 
-                         transition duration-300"
+              className="bg-white border border-[#06353b]/10 rounded-2xl p-8 shadow-[0_20px_60px_rgba(6,53,59,0.06)] hover:shadow-[0_30px_80px_rgba(6,53,59,0.12)] transition duration-300"
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
+              <div className="text-3xl mb-6">
+                {service.icon}
+              </div>
 
-              <h3 className="text-lg sm:text-xl font-semibold text-[#3E3A36] mb-2">
+              <h3 className="text-xl font-semibold text-[#06353b] mb-4">
                 {service.title}
               </h3>
 
-              <p className="text-sm text-[#6B655E] leading-relaxed">
+              <p className="text-[#06353b]/70 text-sm leading-relaxed">
                 {service.desc}
               </p>
             </div>
           ))}
+
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-[#EFE9E1] py-12 sm:py-14">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#3E3A36] mb-4">
-            Need Medical Assistance?
-          </h2>
-          <p className="text-sm sm:text-base text-[#6B655E] mb-6">
-            Book an appointment with our experienced doctors today.
-          </p>
+      {/* ================= CTA ================= */}
+      <section className="max-w-4xl mx-auto text-center border-t border-[#06353b]/10 pt-16">
 
-          <a
-            href="/book-appointment"
-            className="inline-block w-full sm:w-auto 
-                       bg-[#8B6F47] text-white 
-                       px-8 py-3 rounded-full 
-                       text-sm sm:text-base
-                       hover:bg-[#7A5F3E] 
-                       active:scale-[0.98]
-                       transition"
-          >
-            Book Appointment
-          </a>
-        </div>
+        <h2 className="text-2xl font-semibold text-[#06353b] mb-4">
+          Schedule Your Consultation
+        </h2>
+
+        <p className="text-[#06353b]/70 mb-8">
+          Connect with our medical professionals and receive the care you deserve.
+        </p>
+
+        <Link
+          to="/book-appointment"
+          className="inline-block bg-[#06353b] text-white px-10 py-3 rounded-lg text-sm uppercase tracking-[0.12em] hover:bg-[#0E5C63] transition duration-300"
+        >
+          Book Appointment
+        </Link>
+
       </section>
+
     </div>
   );
 };

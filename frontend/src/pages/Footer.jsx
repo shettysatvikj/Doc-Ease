@@ -2,80 +2,73 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#FAF8F5] border-t border-[#E6DED5] mt-20">
-      
-      <div className="max-w-7xl mx-auto px-6 py-12 
-                      grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
-                      gap-10 text-center sm:text-left">
+    <footer className="bg-[#06353b] text-white mt-24">
 
-        {/* About / Logo */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-[#8B6F47]">DocEase</h2>
-          <p className="text-[#6B655E] text-sm leading-relaxed">
-            DocEase is your trusted partner in healthcare. We provide easy
-            appointment booking with top doctors, modern facilities, and
-            compassionate care.
+      <div className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-3 gap-16">
+
+        {/* ================= BRAND ================= */}
+        <div>
+          <h2 className="font-display text-4xl tracking-tight mb-6">
+            Doc<span className="text-[#2F8F9D]">Ease</span>
+          </h2>
+
+          <p className="font-body text-base text-white/75 leading-relaxed max-w-sm">
+            A refined private medical practice committed to discretion,
+            clinical precision, and an elevated patient experience.
           </p>
         </div>
 
-        {/* Quick Links */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-[#3E3A36]">
-            Quick Links
+        {/* ================= NAVIGATION ================= */}
+        <div>
+          <h3 className="font-display text-xl mb-6">
+            Explore
           </h3>
-          <ul className="text-[#6B655E] space-y-2">
+
+          <ul className="space-y-3 font-body text-base">
             <li>
-              <Link to="/" className="hover:text-[#8B6F47] transition">
+              <Link to="/" className="text-white/70 hover:text-[#2F8F9D] transition">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-[#8B6F47] transition">
-                About
+              <Link to="/about" className="text-white/70 hover:text-[#2F8F9D] transition">
+                Our Practice
               </Link>
             </li>
             <li>
-              <Link to="/services" className="hover:text-[#8B6F47] transition">
-                Services
+              <Link to="/services" className="text-white/70 hover:text-[#2F8F9D] transition">
+                Medical Services
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-[#8B6F47] transition">
+              <Link to="/contact" className="text-white/70 hover:text-[#2F8F9D] transition">
                 Contact
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Contact Info */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-[#3E3A36]">
+        {/* ================= CONTACT ================= */}
+        <div>
+          <h3 className="font-display text-xl mb-6">
             Contact
           </h3>
 
-          <div className="text-[#6B655E] text-sm space-y-2">
-            <p>📍 123 Health Street, Bangalore, India</p>
-            <p>📞 +91 98765 43210</p>
-            <p>✉️ support@docease.com</p>
-          </div>
-
-          <div className="flex justify-center sm:justify-start gap-4 mt-3">
-            <a href="#" className="text-[#3E3A36] hover:text-[#8B6F47] transition">
-              🌐
-            </a>
-            <a href="#" className="text-[#3E3A36] hover:text-[#8B6F47] transition">
-              👍
-            </a>
-            <a href="#" className="text-[#3E3A36] hover:text-[#8B6F47] transition">
-              🐦
-            </a>
+          <div className="font-body text-base text-white/70 space-y-3">
+            <p>123 Health Street</p>
+            <p>Bangalore, India</p>
+            <p>+91 98765 43210</p>
+            <p>support@docease.com</p>
           </div>
         </div>
+
       </div>
 
-      <div className="border-t border-[#E6DED5] mt-8 py-4 text-center text-[#6B655E] text-sm px-4">
-        &copy; {new Date().getFullYear()} DocEase. All rights reserved.
+      {/* Bottom */}
+      <div className="border-t border-white/10 py-6 text-center font-body text-sm text-white/50">
+        © {new Date().getFullYear()} DocEase. All Rights Reserved.
       </div>
+
     </footer>
   );
 };

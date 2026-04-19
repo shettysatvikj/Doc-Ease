@@ -30,97 +30,133 @@ const DoctorDashboard = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this appointment?")) return;
-    try {
-      await API.delete(`/appointments/${id}`);
-      toast.success("Appointment deleted successfully!");
-      setAppointments((prev) => prev.filter((appt) => appt._id !== id));
-    } catch {
-      toast.error("Failed to delete appointment");
-    }
-  };
-
   const statusStyles = {
-    pending: "bg-[#FFF3CD] text-[#856404]",
-    approved: "bg-[#D4EDDA] text-[#155724]",
-    rejected: "bg-[#F8D7DA] text-[#721C24]",
+    pending: "bg-[#F0F4F5] text-[#06353b]",
+    approved: "bg-[#E6F4F1] text-[#0E5C63]",
+    rejected: "bg-[#FCEAEA] text-[#A33A3A]",
+    cancelled: "bg-[#FCEAEA] text-[#A33A3A]",
+    completed: "bg-[#EEF2FF] text-[#3730A3]",
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+    <div className="min-h-screen bg-[#F4F8F7] pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6">
+
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="bg-white border border-[#E6DED5] rounded-2xl p-5 sm:p-6 shadow mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#3E3A36]">
+        <div className="mb-10 md:mb-16">
+          <div className="w-12 md:w-16 h-[2px] bg-[#2F8F9D] mb-4 md:mb-6" />
+          <h1 className="text-2xl md:text-3xl font-semibold text-[#06353b]">
             Welcome, Dr. {user.name}
           </h1>
-          <p className="text-xs sm:text-sm text-[#6B655E] mt-1">
-            Manage your patient appointments
+          <p className="text-sm md:text-base text-[#06353b]/60 mt-2">
+            Manage and review your patient appointments
           </p>
         </div>
 
-        {/* Appointments */}
-        <h2 className="text-lg sm:text-xl font-semibold text-[#3E3A36] mb-4">
+        {/* Section Title */}
+        <h2 className="text-sm md:text-xl uppercase tracking-[0.15em] text-[#06353b]/70 mb-6 md:mb-8">
           Appointments
         </h2>
 
         {appointments.length === 0 ? (
-          <p className="text-sm sm:text-base text-[#6B655E]">
-            No appointments yet.
+          <p className="text-sm md:text-base text-[#06353b]/60">
+            No appointments scheduled.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+
             {appointments.map((appt) => (
               <div
                 key={appt._id}
-                className="bg-white border border-[#E6DED5] rounded-2xl p-4 sm:p-5 shadow hover:shadow-lg transition flex flex-col gap-3"
+                className="bg-white border border-[#06353b]/10 rounded-2xl p-5 md:p-6 shadow-[0_20px_60px_rgba(6,53,59,0.06)] hover:shadow-[0_30px_80px_rgba(6,53,59,0.12)] transition"
               >
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                  <h3 className="font-semibold text-[#8B6F47] text-base sm:text-lg">
-                    {appt.patient.name}
-                  </h3>
+
+                {/* Top Row */}
+                <div className="flex justify-between items-start gap-4 mb-5 md:mb-6">
+
+                  <div className="min-w-0">
+                    <h3 className="text-base md:text-lg font-semibold text-[#06353b] truncate">
+                      {appt.patient.name}
+                    </h3>
+                    <p className="text-xs md:text-sm text-[#06353b]/60 truncate">
+                      {appt.patient.email}
+                    </p>
+                  </div>
+
                   <span
-                    className={`w-fit text-xs px-3 py-1 rounded-full font-medium ${statusStyles[appt.status]}`}
+                    className={`text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-full font-medium whitespace-nowrap capitalize ${
+                      statusStyles[appt.status] ||
+                      "bg-[#F0F4F5] text-[#06353b]"
+                    }`}
                   >
                     {appt.status}
                   </span>
+
                 </div>
 
                 {/* Details */}
-                <div className="text-sm text-[#5A554F] space-y-1 break-words">
-                  <p><strong>Email:</strong> {appt.patient.email}</p>
+                <div className="text-xs md:text-sm text-[#06353b]/75 space-y-1 md:space-y-2 mb-5 md:mb-6 break-words">
                   <p><strong>Date:</strong> {appt.date}</p>
                   <p><strong>Time:</strong> {appt.time}</p>
                   <p><strong>Reason:</strong> {appt.reason}</p>
                 </div>
 
+                {/* ✅ Show cancellation details */}
+                {appt.status === "cancelled" && appt.cancellationReason && (
+                  <div className="mb-5 p-3 bg-[#FCEAEA] border border-[#F5C2C2] rounded-lg text-[#A33A3A] text-xs md:text-sm">
+                    <p>
+                      <strong>Cancellation Reason:</strong>
+                    </p>
+                    <p className="mt-1 break-words">
+                      {appt.cancellationReason}
+                    </p>
+
+                    {appt.cancelledBy && (
+                      <p className="mt-2 text-[10px] md:text-xs text-[#A33A3A]/70">
+                        Cancelled by: {appt.cancelledBy}
+                      </p>
+                    )}
+
+                    {appt.cancelledAt && (
+                      <p className="text-[10px] md:text-xs text-[#A33A3A]/70">
+                        On: {new Date(appt.cancelledAt).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 {/* Actions */}
-                <div className="flex flex-col sm:flex-row gap-3 mt-3">
-                  {appt.status === "pending" && (
-                    <>
-                      <button
-                        onClick={() => updateStatus(appt._id, "approved")}
-                        className="w-full sm:flex-1 bg-[#8B6F47] text-white py-2 rounded-lg hover:bg-[#7A5F3E] transition"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => updateStatus(appt._id, "rejected")}
-                        className="w-full sm:flex-1 border border-[#8B6F47] text-[#8B6F47] py-2 rounded-lg hover:bg-[#D8CFC4] transition"
-                      >
-                        Reject
-                      </button>
-                    </>
-                  )}
-                  {/* Delete button remains unchanged if needed */}
-                </div>
+                {appt.status === "pending" && (
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+
+                    <button
+                      onClick={() =>
+                        updateStatus(appt._id, "approved")
+                      }
+                      className="w-full bg-[#06353b] text-white py-2 md:py-2.5 rounded-lg text-xs md:text-sm uppercase tracking-[0.1em] hover:bg-[#0E5C63] transition"
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        updateStatus(appt._id, "rejected")
+                      }
+                      className="w-full border border-[#06353b]/30 text-[#06353b] py-2 md:py-2.5 rounded-lg text-xs md:text-sm uppercase tracking-[0.1em] hover:bg-[#06353b]/5 transition"
+                    >
+                      Reject
+                    </button>
+
+                  </div>
+                )}
+
               </div>
             ))}
+
           </div>
         )}
+
       </div>
     </div>
   );
