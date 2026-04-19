@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import AIChat from "../components/AIChat.jsx";
+import { lazy, Suspense } from "react";
+
+const AIChat = lazy(() => import("../components/AIChat.jsx"));
+
 const ease = [0.16, 1, 0.3, 1];
 
 const Home = () => {
@@ -11,11 +14,17 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center justify-center px-6">
 
         <img
-          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1920&q=80"
+          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=70"
+          srcSet="
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=400&q=60 400w,
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=70 800w,
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1200&q=70 1200w
+          "
+          sizes="(max-width: 768px) 100vw, 1200px"
           alt="Modern Clinic Interior"
           loading="eager"
-          decoding="async"
           fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
@@ -111,8 +120,10 @@ const Home = () => {
 
           <div>
             <img
-              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b"
+              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=70"
               alt="Private Consultation"
+              loading="lazy"
+              decoding="async"
               className="rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.08)] w-full"
             />
           </div>
@@ -135,7 +146,10 @@ const Home = () => {
 
             <div>
               <img
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500&auto=format&fit=crop&q=60"
+                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=70"
+                alt="Clinic Interior"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-[240px] md:h-[360px] object-cover rounded-2xl border border-[#06353b]/10"
               />
             </div>
@@ -171,8 +185,10 @@ const Home = () => {
 
           <div>
             <img
-              src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?w=500&auto=format&fit=crop&q=60"
+              src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fit=crop&w=800&q=70"
               alt="Lead Doctor"
+              loading="lazy"
+              decoding="async"
               className="rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.08)] w-full"
             />
           </div>
@@ -231,7 +247,11 @@ const Home = () => {
         </Link>
       </section>
 
-      <AIChat />
+      {/* Lazy Loaded AI Chat */}
+      <Suspense fallback={null}>
+        <AIChat />
+      </Suspense>
+
     </div>
   );
 };
