@@ -54,33 +54,40 @@ const AppointmentCard = ({ appointment, onUpdate }) => {
   };
 
   /* ================= RESCHEDULE ================= */
-  const handleReschedule = async () => {
-    if (!newDate || !newTime) {
-      toast.error("Select new date and time");
-      return;
-    }
+ const handleReschedule = async () => {
+  if (!newDate || !newTime) {
+    toast.error("Select new date and time");
+    return;
+  }
 
-    try {
-      const res = await API.put(
-        `/appointments/${appointment._id}/reschedule`,
-        { date: newDate, time: newTime }
-      );
+  // ✅ Validate format: HH:MM AM/PM
+  const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
 
-      toast.success("Appointment rescheduled");
+  if (!timeRegex.test(newTime)) {
+    toast.error("Enter time like 10:00 AM");
+    return;
+  }
 
-      setShowRescheduleModal(false);
-      setNewDate("");
-      setNewTime("");
+  try {
+    const res = await API.put(
+      `/appointments/${appointment._id}/reschedule`,
+      { date: newDate, time: newTime }
+    );
 
-      // ✅ Update card with new data
-      if (onUpdate) onUpdate(res.data.appointment);
+    toast.success("Appointment rescheduled");
 
-    } catch (err) {
-      toast.error(
-        err.response?.data?.message || "Reschedule failed"
-      );
-    }
-  };
+    setShowRescheduleModal(false);
+    setNewDate("");
+    setNewTime("");
+
+    if (onUpdate) onUpdate(res.data.appointment);
+
+  } catch (err) {
+    toast.error(
+      err.response?.data?.message || "Reschedule failed"
+    );
+  }
+};
 
   return (
     <>
@@ -225,13 +232,22 @@ const AppointmentCard = ({ appointment, onUpdate }) => {
                 onChange={(e) => setNewDate(e.target.value)}
               />
 
-              <input
-                type="text"
-                placeholder="New Time (e.g. 10:00 AM)"
-                className="w-full border rounded-lg p-3 text-sm mb-4"
-                value={newTime}
-                onChange={(e) => setNewTime(e.target.value)}
-              />
+             <select
+  className="w-full border rounded-lg p-3 text-sm mb-4"
+  value={newTime}
+  onChange={(e) => setNewTime(e.target.value)}
+>
+  <option value="">Select Time</option>
+  <option>09:00 AM</option>
+  <option>10:00 AM</option>
+  <option>11:00 AM</option>
+  <option>12:00 PM</option>
+  <option>01:00 PM</option>
+  <option>02:00 PM</option>
+  <option>03:00 PM</option>
+  <option>04:00 PM</option>
+  <option>05:00 PM</option>
+</select>
 
               <div className="flex justify-end gap-4">
                 <button
