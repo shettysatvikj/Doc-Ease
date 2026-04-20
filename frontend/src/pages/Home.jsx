@@ -1,21 +1,7 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import {  useState ,lazy, Suspense } from "react";
-
-const loadAIChat = () =>
-  import("../components/AIChat.jsx");
-
-
-
-const ease = [0.16, 1, 0.3, 1];
+import AIChat from "../components/AIChat.jsx";
 
 const Home = () => {
-  const [AIChatComp, setAIChatComp] = useState(null);
-
-const handleOpenChat = async () => {
-  const mod = await loadAIChat();
-  setAIChatComp(() => mod.default);
-};
   return (
     <div className="bg-white text-[#0A1F24] overflow-hidden">
 
@@ -24,27 +10,17 @@ const handleOpenChat = async () => {
 
         <img
           src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=70"
-          srcSet="
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=400&q=60 400w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=70 800w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1200&q=70 1200w
-          "
-          sizes="(max-width: 768px) 100vw, 1200px"
           alt="Modern Clinic Interior"
           loading="eager"
-          fetchPriority="high"
           decoding="async"
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
         <div className="absolute inset-0 bg-[#06353b]/75" />
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease }}
-          className="relative z-10 text-center px-4 max-w-4xl"
-        >
+        {/* ✅ normal div instead of motion.div */}
+        <div className="relative z-10 text-center px-4 max-w-4xl">
           <div className="w-16 md:w-20 h-[2px] bg-[#D4B26A] mx-auto mb-6 md:mb-10" />
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white leading-[1.1]">
@@ -73,13 +49,13 @@ const handleOpenChat = async () => {
               Our Services
             </Link>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ================= FLOATING STATS ================= */}
       <section className="relative -mt-16 md:-mt-24 z-20">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="bg-white rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.08)] grid grid-cols-2 md:grid-cols-4 text-center py-8 md:py-14">
+          <div className="bg-white rounded-2xl shadow-lg grid grid-cols-2 md:grid-cols-4 text-center py-8 md:py-14">
 
             {[
               { value: "18+", label: "Senior Specialists" },
@@ -127,15 +103,13 @@ const handleOpenChat = async () => {
             </Link>
           </div>
 
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=70"
-              alt="Private Consultation"
-              loading="lazy"
-              decoding="async"
-              className="rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.08)] w-full"
-            />
-          </div>
+          <img
+            src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=70"
+            alt="Private Consultation"
+            loading="lazy"
+            decoding="async"
+            className="rounded-2xl shadow-lg w-full"
+          />
 
         </div>
       </section>
@@ -153,15 +127,13 @@ const handleOpenChat = async () => {
 
           <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center">
 
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=70"
-                alt="Clinic Interior"
-                loading="lazy"
-                decoding="async"
-                className="w-full h-[240px] md:h-[360px] object-cover rounded-2xl border border-[#06353b]/10"
-              />
-            </div>
+            <img
+              src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=70"
+              alt="Clinic Interior"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-[240px] md:h-[360px] object-cover rounded-2xl border border-[#06353b]/10"
+            />
 
             <div className="space-y-8 md:space-y-12">
               {[
@@ -192,15 +164,13 @@ const handleOpenChat = async () => {
       <section className="py-20 md:py-40">
         <div className="max-w-6xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 md:gap-24 items-center">
 
-          <div>
-            <img
-              src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fit=crop&w=800&q=70"
-              alt="Lead Doctor"
-              loading="lazy"
-              decoding="async"
-              className="rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.08)] w-full"
-            />
-          </div>
+          <img
+            src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fit=crop&w=800&q=70"
+            alt="Lead Doctor"
+            loading="lazy"
+            decoding="async"
+            className="rounded-2xl shadow-lg w-full"
+          />
 
           <div>
             <div className="w-14 md:w-16 h-[2px] bg-[#D4B26A] mb-6 md:mb-8" />
@@ -256,12 +226,7 @@ const handleOpenChat = async () => {
         </Link>
       </section>
 
-<button onClick={handleOpenChat}>Chat</button>
-
-{AIChatComp && <AIChatComp />}
-
+      <AIChat />
     </div>
   );
 };
-
-export default Home;
