@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AIChat from "./components/AIChat";
+
 import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
@@ -123,8 +123,7 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
       <Footer />
 
-      {/* ✅ Global Fixed AI Concierge */}
-      <AIChat />
+      
     </>
   );
 }
