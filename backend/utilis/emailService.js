@@ -1,33 +1,32 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const SENDER = "Dr. Ease Clinic <onboarding@resend.dev>";
+// Later you can verify your own domain
 
 /* =========================================
-   TRANSPORTER CONFIG
+   BASE SEND FUNCTION
 ========================================= */
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const sendEmail = async ({ to, subject, html }) => {
+  try {
+    const data = await resend.emails.send({
+      from: SENDER,
+      to,
+      subject,
+      html,
+    });
 
-/* =========================================
-   COMMON EMAIL TEMPLATE WRAPPER
-========================================= */
-const emailWrapper = (content) => `
-  <div style="font-family: Arial, sans-serif; padding: 20px; color: #06353b;">
-    <h2 style="margin-bottom: 10px;">Dr. Ease Private Clinic</h2>
-    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
-    ${content}
-    <br/>
-    <p style="margin-top: 30px; font-size: 12px; color: #6b7280;">
-      This is an automated message. Please do not reply directly.
-    </p>
-  </div>
-`;
+    console.log("✅ Email sent:", data.id);
+    return true;
+  } catch (error) {
+    console.error("❌ Email failed:", error.message);
+    return false;
+  }
+};
 
 /* =========================================
    CONFIRMATION EMAIL
@@ -38,46 +37,17 @@ export const sendConfirmationEmail = async ({
   date,
   time,
 }) => {
-  await transporter.sendMail({
-    from: `"Dr. Ease Clinic" <${process.env.EMAIL_USER}>`,
+  return sendEmail({
     to: email,
     subject: "✅ Appointment Confirmed - Dr. Ease Clinic",
-    html: emailWrapper(`
-      <p>Hello <strong>${name}</strong>,</p>
-      <p>Your appointment has been successfully confirmed.</p>
+    html: `
+      <h3>Hello ${name},</h3>
+      <p>Your appointment has been confirmed.</p>
       <p><strong>Date:</strong> ${date}</p>
       <p><strong>Time:</strong> ${time}</p>
       <p>Please arrive 10 minutes early.</p>
-      <p>We look forward to seeing you.</p>
-    `),
+    `,
   });
-
-  console.log("✅ Confirmation email sent to:", email);
-};
-
-/* =========================================
-   REMINDER EMAIL
-========================================= */
-export const sendReminderEmail = async ({
-  name,
-  email,
-  date,
-  time,
-}) => {
-  await transporter.sendMail({
-    from: `"Dr. Ease Clinic" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "⏰ Appointment Reminder - Dr. Ease Clinic",
-    html: emailWrapper(`
-      <p>Hello <strong>${name}</strong>,</p>
-      <p>This is a reminder for your upcoming appointment.</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Time:</strong> ${time}</p>
-      <p>Please arrive 10 minutes early.</p>
-    `),
-  });
-
-  console.log("✅ Reminder sent to:", email);
 };
 
 /* =========================================
@@ -90,21 +60,17 @@ export const sendCancellationEmail = async ({
   time,
   reason,
 }) => {
-  await transporter.sendMail({
-    from: `"Dr. Ease Clinic" <${process.env.EMAIL_USER}>`,
+  return sendEmail({
     to: email,
-    subject: "❌ Appointment Cancelled - Dr. Ease Clinic",
-    html: emailWrapper(`
-      <p>Hello <strong>${name}</strong>,</p>
+    subject: "❌ Appointment Cancelled",
+    html: `
+      <h3>Hello ${name},</h3>
       <p>Your appointment has been cancelled.</p>
       <p><strong>Date:</strong> ${date}</p>
       <p><strong>Time:</strong> ${time}</p>
       <p><strong>Reason:</strong> ${reason}</p>
-      <p>If this was not intended, please contact the clinic or reschedule.</p>
-    `),
+    `,
   });
-
-  console.log("✅ Cancellation email sent to:", email);
 };
 
 /* =========================================
@@ -118,23 +84,14 @@ export const sendRescheduleEmail = async ({
   newDate,
   newTime,
 }) => {
-  await transporter.sendMail({
-    from: `"Dr. Ease Clinic" <${process.env.EMAIL_USER}>`,
+  return sendEmail({
     to: email,
-    subject: "🔄 Appointment Rescheduled - Dr. Ease Clinic",
-    html: emailWrapper(`
-      <p>Hello <strong>${name}</strong>,</p>
-      <p>Your appointment has been successfully rescheduled.</p>
-
-      <p><strong>Previous:</strong><br/>
-      ${oldDate} at ${oldTime}</p>
-
-      <p><strong>New Schedule:</strong><br/>
-      ${newDate} at ${newTime}</p>
-
-      <p>Please contact us if you have any questions.</p>
-    `),
+    subject: "🔄 Appointment Rescheduled",
+    html: `
+      <h3>Hello ${name},</h3>
+      <p>Your appointment has been rescheduled.</p>
+      <p><strong>Old:</strong> ${oldDate} at ${oldTime}</p>
+      <p><strong>New:</strong> ${newDate} at ${newTime}</p>
+    `,
   });
-
-  console.log("✅ Reschedule email sent to:", email);
 };
