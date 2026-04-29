@@ -1,48 +1,46 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import nodemailer from "nodemailer";
+import axios from "axios";
+
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const SENDER_EMAIL = process.env.SENDER_EMAIL;
 
 /* =========================================
-   BREVO SMTP CONFIG
-========================================= */
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
-
-/* =========================================
-   VERIFY CONNECTION
-========================================= */
-transporter.verify((error) => {
-  if (error) {
-    console.error("❌ Brevo SMTP Error:", error);
-  } else {
-    console.log("✅ Brevo SMTP Connected");
-  }
-});
-
-/* =========================================
-   BASE SEND FUNCTION
+   BASE EMAIL FUNCTION USING BREVO API
 ========================================= */
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    const info = await transporter.sendMail({
-      from: `"Dr. Ease Clinic" <${process.env.SENDER_EMAIL}>`,
-      to,
-      subject,
-      html,
-    });
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "Dr. Ease Clinic",
+          email: SENDER_EMAIL,
+        },
+        to: [
+          {
+            email: to,
+          },
+        ],
+        subject,
+        htmlContent: html,
+      },
+      {
+        headers: {
+          "api-key": BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    console.log("✅ Email sent:", info.messageId);
+    console.log("✅ Email sent:", response.data.messageId);
     return true;
   } catch (error) {
-    console.error("❌ Email failed:", error.message);
+    console.error(
+      "❌ Brevo API Error:",
+      error.response?.data || error.message
+    );
     return false;
   }
 };
