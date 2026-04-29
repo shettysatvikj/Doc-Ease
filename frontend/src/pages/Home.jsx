@@ -24,10 +24,10 @@ const Home = () => {
           <div className="w-16 md:w-20 h-[2px] bg-[#D4B26A] mx-auto mb-6 md:mb-10" />
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white leading-[1.1]">
-            Private Healthcare
-            <br />
-            Without Compromise
-          </h1>
+  Private Healthcare Clinic
+  <br />
+  With Advanced Medical Specialists
+</h1>
 
           <p className="mt-6 md:mt-10 text-white/80 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             A refined medical environment built on discretion,
@@ -227,6 +227,7 @@ const Home = () => {
       </section>
 
       <AIChat />
+     
     </div>
   );
 };

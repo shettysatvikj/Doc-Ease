@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:"https://dr-ease.onrender.com/api", // backend URL
+  baseURL:"https://doc-ease-1-hvka.onrender.com/api", // backend URL
 });
 
 // ✅ Automatically attach JWT token
