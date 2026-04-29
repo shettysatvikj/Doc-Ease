@@ -13,15 +13,21 @@ const SENDER = "Dr. Ease Clinic <onboarding@resend.dev>";
 ========================================= */
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    const data = await resend.emails.send({
+    const response = await resend.emails.send({
       from: SENDER,
       to,
       subject,
       html,
     });
 
-    console.log("✅ Email sent:", data.id);
+    if (response.error) {
+      console.error("❌ Resend Error:", response.error);
+      return false;
+    }
+
+    console.log("✅ Email sent successfully:", response.data?.id);
     return true;
+
   } catch (error) {
     console.error("❌ Email failed:", error.message);
     return false;
