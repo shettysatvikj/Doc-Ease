@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import AIChat from "../components/AIChat.jsx";
+
 
 const Home = () => {
   return (
@@ -226,7 +226,7 @@ const Home = () => {
         </Link>
       </section>
 
-      <AIChat />
+
      
     </div>
   );
