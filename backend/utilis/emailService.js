@@ -95,3 +95,21 @@ export const sendRescheduleEmail = async ({
     `,
   });
 };
+export const sendReminderEmail = async ({
+  name,
+  email,
+  date,
+  time,
+}) => {
+  return sendEmail({
+    to: email,
+    subject: "⏰ Appointment Reminder - Dr. Ease Clinic",
+    html: `
+      <h3>Hello ${name},</h3>
+      <p>This is a reminder for your upcoming appointment.</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Time:</strong> ${time}</p>
+      <p>Please arrive 10 minutes early.</p>
+    `,
+  });
+};
