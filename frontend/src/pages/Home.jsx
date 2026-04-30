@@ -9,13 +9,13 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center justify-center">
 
         <img
-          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1200&q=70"
+          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=1000&q=60"
           srcSet="
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=600&q=60 600w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1000&q=65 1000w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=1600&q=70 1600w
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=500&q=50 500w,
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=800&q=55 800w,
+            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=1200&q=60 1200w
           "
-          sizes="(max-width: 768px) 100vw, 1600px"
+          sizes="(max-width: 768px) 100vw, 1200px"
           alt="Modern Clinic Interior"
           loading="eager"
           fetchPriority="high"
@@ -44,7 +44,7 @@ const Home = () => {
           <div className="mt-16 flex flex-col sm:flex-row justify-center gap-6">
             <Link
               to="/book-appointment"
-              className="px-14 py-5 bg-[#D4B26A] text-[#06353b] rounded-md text-sm tracking-wide shadow-xl hover:shadow-2xl hover:bg-[#c6a25d] transition-all duration-300"
+              className="px-14 py-5 bg-[#D4B26A] text-[#06353b] rounded-md text-sm tracking-wide shadow-lg md:shadow-xl hover:shadow-2xl hover:bg-[#c6a25d] transition-all duration-300"
             >
               Book Consultation
             </Link>
@@ -61,8 +61,8 @@ const Home = () => {
 
 
       {/* ================= STATS ================= */}
-      <section className="relative -mt-24 z-20 px-6">
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl border border-[#06353b]/5 grid grid-cols-2 md:grid-cols-4 text-center py-12">
+      <section className="relative mt-[-6rem] md:-mt-24 z-20 px-6">
+        <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-lg md:shadow-2xl border border-[#06353b]/5 grid grid-cols-2 md:grid-cols-4 text-center py-12">
           {[
             { value: "18+", label: "Senior Specialists" },
             { value: "12K+", label: "Patients Served" },
@@ -111,11 +111,11 @@ const Home = () => {
 
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=900&q=70"
+              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fm=webp&fit=crop&w=800&q=60"
               alt="Private Consultation"
               loading="lazy"
               decoding="async"
-              className="rounded-3xl shadow-2xl"
+              className="rounded-3xl shadow-lg md:shadow-2xl"
             />
             <div className="absolute -bottom-6 -right-6 w-32 h-32 border border-[#D4B26A]/40 rounded-3xl" />
           </div>
@@ -128,11 +128,11 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-24 items-center">
 
           <img
-            src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=70"
+            src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fm=webp&fit=crop&w=800&q=60"
             alt="Clinic Interior"
             loading="lazy"
             decoding="async"
-            className="rounded-3xl shadow-xl h-[360px] object-cover"
+            className="rounded-3xl shadow-lg md:shadow-xl h-[360px] object-cover"
           />
 
           <div className="space-y-14">
@@ -165,11 +165,11 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-24 items-center">
 
           <img
-            src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fit=crop&w=900&q=70"
+            src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fm=webp&fit=crop&w=800&q=60"
             alt="Lead Doctor"
             loading="lazy"
             decoding="async"
-            className="rounded-3xl shadow-2xl"
+            className="rounded-3xl shadow-lg md:shadow-2xl"
           />
 
           <div>
@@ -218,7 +218,7 @@ const Home = () => {
           </p>
           <Link
             to="/book-appointment"
-            className="inline-block mt-14 bg-[#06353b] text-white px-16 py-6 rounded-md shadow-xl hover:shadow-2xl hover:bg-[#0E5C63] transition"
+            className="inline-block mt-14 bg-[#06353b] text-white px-16 py-6 rounded-md shadow-lg md:shadow-xl hover:shadow-2xl hover:bg-[#0E5C63] transition"
           >
             Schedule Appointment
           </Link>
