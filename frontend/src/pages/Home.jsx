@@ -9,17 +9,11 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center justify-center">
 
         <img
-          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=1000&q=60"
-          srcSet="
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=500&q=50 500w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=800&q=55 800w,
-            https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fm=webp&fit=crop&w=1200&q=60 1200w
-          "
-          sizes="(max-width: 768px) 100vw, 1200px"
+          src="/doctor.avif"
           alt="Modern Clinic Interior"
           loading="eager"
-          fetchPriority="high"
           decoding="async"
+          fetchpriority="high"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
@@ -44,7 +38,7 @@ const Home = () => {
           <div className="mt-16 flex flex-col sm:flex-row justify-center gap-6">
             <Link
               to="/book-appointment"
-              className="px-14 py-5 bg-[#D4B26A] text-[#06353b] rounded-md text-sm tracking-wide shadow-lg md:shadow-xl hover:shadow-2xl hover:bg-[#c6a25d] transition-all duration-300"
+              className="px-14 py-5 bg-[#D4B26A] text-[#06353b] rounded-md text-sm tracking-wide shadow-md md:shadow-xl hover:shadow-2xl hover:bg-[#c6a25d] transition-all duration-300"
             >
               Book Consultation
             </Link>
@@ -61,8 +55,9 @@ const Home = () => {
 
 
       {/* ================= STATS ================= */}
-      <section className="relative mt-[-6rem] md:-mt-24 z-20 px-6">
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-lg md:shadow-2xl border border-[#06353b]/5 grid grid-cols-2 md:grid-cols-4 text-center py-12">
+      <section className="relative mt-[-5rem] md:-mt-24 z-20 px-6">
+        <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-md md:shadow-2xl border border-[#06353b]/5 grid grid-cols-2 md:grid-cols-4 text-center py-12">
+
           {[
             { value: "18+", label: "Senior Specialists" },
             { value: "12K+", label: "Patients Served" },
@@ -79,6 +74,7 @@ const Home = () => {
               </p>
             </div>
           ))}
+
         </div>
       </section>
 
@@ -103,7 +99,7 @@ const Home = () => {
 
             <Link
               to="/about"
-              className="inline-block mt-12 text-[#06353b] text-sm tracking-wide border-b border-[#06353b]"
+              className="inline-block mt-12 text-[#06353b] text-sm tracking-wide border-b border-[#06353b] hover:opacity-70 transition"
             >
               Learn More →
             </Link>
@@ -111,11 +107,11 @@ const Home = () => {
 
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fm=webp&fit=crop&w=800&q=60"
+              src="/medicine.avif"
               alt="Private Consultation"
               loading="lazy"
               decoding="async"
-              className="rounded-3xl shadow-lg md:shadow-2xl"
+              className="rounded-3xl shadow-md md:shadow-2xl"
             />
             <div className="absolute -bottom-6 -right-6 w-32 h-32 border border-[#D4B26A]/40 rounded-3xl" />
           </div>
@@ -123,53 +119,63 @@ const Home = () => {
       </section>
 
 
-      {/* WHY CHOOSE US */}
+      {/* ================= WHY CHOOSE US ================= */}
       <section className="py-32 md:py-40 bg-[#F4F8F7]">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-24 items-center">
+        <div className="max-w-7xl mx-auto px-6">
 
-          <img
-            src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fm=webp&fit=crop&w=800&q=60"
-            alt="Clinic Interior"
-            loading="lazy"
-            decoding="async"
-            className="rounded-3xl shadow-lg md:shadow-xl h-[360px] object-cover"
-          />
-
-          <div className="space-y-14">
-            {[
-              "Private & Discreet Environment",
-              "Senior Medical Specialists",
-              "Advanced Diagnostic Technology",
-              "Personalized Patient Experience",
-            ].map((item, i) => (
-              <div key={i}>
-                <div className="flex items-center gap-6">
-                  <span className="text-[#D4B26A] text-sm tracking-widest">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="text-xl font-display text-[#06353b]">
-                    {item}
-                  </h3>
-                </div>
-                <div className="mt-4 ml-10 w-14 h-[2px] bg-[#D4B26A]" />
-              </div>
-            ))}
+          <div className="text-center mb-24">
+            <div className="w-16 h-[2px] bg-[#D4B26A] mx-auto mb-8" />
+            <h2 className="text-3xl md:text-5xl font-display text-[#06353b]">
+              Why Choose Our Clinic
+            </h2>
           </div>
 
+          <div className="grid md:grid-cols-2 gap-24 items-center">
+
+            <img
+              src="/clinic.avif"
+              alt="Clinic Interior"
+              loading="lazy"
+              decoding="async"
+              className="rounded-3xl shadow-md md:shadow-xl h-[360px] object-cover"
+            />
+
+            <div className="space-y-14">
+              {[
+                "Private & Discreet Environment",
+                "Senior Medical Specialists",
+                "Advanced Diagnostic Technology",
+                "Personalized Patient Experience",
+              ].map((item, i) => (
+                <div key={i}>
+                  <div className="flex items-center gap-6">
+                    <span className="text-[#D4B26A] text-sm tracking-widest">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-xl font-display text-[#06353b]">
+                      {item}
+                    </h3>
+                  </div>
+                  <div className="mt-4 ml-10 w-14 h-[2px] bg-[#D4B26A]" />
+                </div>
+              ))}
+            </div>
+
+          </div>
         </div>
       </section>
 
 
-      {/* DOCTOR SPOTLIGHT */}
+      {/* ================= DOCTOR SPOTLIGHT ================= */}
       <section className="py-32 md:py-40">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-24 items-center">
 
           <img
-            src="https://plus.unsplash.com/premium_photo-1681996543579-b24cd01d4516?auto=format&fm=webp&fit=crop&w=800&q=60"
+            src="/doctor2.avif"
             alt="Lead Doctor"
             loading="lazy"
             decoding="async"
-            className="rounded-3xl shadow-lg md:shadow-2xl"
+            className="rounded-3xl shadow-md md:shadow-2xl"
           />
 
           <div>
@@ -189,36 +195,36 @@ const Home = () => {
       </section>
 
 
-      {/* TESTIMONIAL */}
+      {/* ================= TESTIMONIAL ================= */}
       <section className="py-32 bg-[#06353b] text-white text-center">
         <div className="max-w-3xl mx-auto px-6">
           <div className="w-16 h-[2px] bg-[#D4B26A] mx-auto mb-10" />
-          <p className="text-xl md:text-2xl italic text-white/90">
+          <p className="text-xl md:text-2xl leading-relaxed italic text-white/90">
             “The professionalism, discretion, and quality of care exceeded all expectations.”
           </p>
-          <div className="mt-10 text-sm text-white/70">
+          <div className="mt-10 text-sm text-white/70 tracking-wide">
             — Private Patient
           </div>
         </div>
       </section>
 
 
-      {/* FINAL CTA */}
+      {/* ================= FINAL CTA ================= */}
       <section className="py-36 bg-white text-center px-6">
         <div className="max-w-3xl mx-auto">
           <div className="w-16 h-[2px] bg-[#D4B26A] mx-auto mb-8" />
-          <h2 className="text-3xl md:text-5xl font-display text-[#06353b]">
+          <h2 className="text-3xl md:text-5xl font-display text-[#06353b] leading-tight">
             Begin Your Private
             <br />
             Medical Journey
           </h2>
-          <p className="mt-10 text-[#0A1F24]/70 text-lg">
+          <p className="mt-10 text-[#0A1F24]/70 text-lg leading-relaxed">
             Schedule your confidential consultation and
             experience elevated healthcare.
           </p>
           <Link
             to="/book-appointment"
-            className="inline-block mt-14 bg-[#06353b] text-white px-16 py-6 rounded-md shadow-lg md:shadow-xl hover:shadow-2xl hover:bg-[#0E5C63] transition"
+            className="inline-block mt-14 bg-[#06353b] text-white px-16 py-6 rounded-md text-sm tracking-wide shadow-md md:shadow-xl hover:shadow-2xl hover:bg-[#0E5C63] transition-all duration-300"
           >
             Schedule Appointment
           </Link>
