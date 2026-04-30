@@ -7,15 +7,15 @@ const Home = () => {
 
       {/* ================= HERO ================= */}
       <section className="relative min-h-screen flex items-center justify-center">
-
-        <img
-          src="/doctor.avif"
-          alt="Modern Clinic Interior"
-          loading="eager"
-          decoding="async"
-          fetchpriority="high"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+<img
+  src="/doctor.avif"
+  alt="Modern Clinic Interior"
+  width="1600"
+  height="1000"
+  loading="eager"
+  decoding="async"
+  className="absolute inset-0 w-full h-full object-cover"
+/>
 
         <div className="absolute inset-0 bg-[#06353b]/85" />
 
